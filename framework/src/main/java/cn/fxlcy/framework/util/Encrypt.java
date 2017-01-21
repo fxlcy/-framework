@@ -1,5 +1,7 @@
 package cn.fxlcy.framework.util;
 
+import android.support.annotation.Nullable;
+
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -59,11 +61,11 @@ public class Encrypt {
         return builder.toString();
     }
 
-    public byte[] encryptStr(String str) {
+    public static byte[] encryptStr(String str) {
         byte[] bytes = null;
         try {
             bytes = str.getBytes(UTF_8);
-            bytes = aes256_encrypt_ecb(bytes);
+            aes256_encrypt_ecb(bytes);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
             Log.e(TAG, "encryptStr fail");
@@ -73,20 +75,25 @@ public class Encrypt {
     }
 
 
-    public String decryptStr(byte[] bytes) {
-        bytes = aes256_decrypt_ecb(bytes);
+    public static String decryptStr(byte[] bytes) {
+        aes256_decrypt_ecb(bytes);
         return new String(bytes);
     }
 
 
-    public native static byte[] aes256_encrypt_ecb(byte[] bytes);
+    public native static void aes256_encrypt_ecb(byte[] bytes);
 
-    public native static byte[] aes256_decrypt_ecb(byte[] bytes);
+    public native static void aes256_decrypt_ecb(byte[] bytes);
 
     public native static void aes256_init_context(byte[] bytes);
 
     public native static void aes256_destroy_context();
 
+    public native static void xorCrypt(byte[] bytes, @Nullable byte[] key);
+
+    public static void xorCrypt(byte[] bytes) {
+        xorCrypt(bytes, null);
+    }
 
     static {
         System.loadLibrary("al");

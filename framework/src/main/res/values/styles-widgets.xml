@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="RecyclerView">
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:scrollbars">vertical</item>
+        <item name="android:scrollbarSize">4dp</item>
+        <item name="android:scrollbarThumbVertical">@drawable/shape_scrollbar_thumb_vertical</item>
+    </style>
+</resources>

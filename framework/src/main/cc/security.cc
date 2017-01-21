@@ -5,6 +5,7 @@
 #include <malloc.h>
 #include "security.h"
 #include "include/aes256.h"
+#include "include/utils.h"
 
 #define AES256_LEN 18
 
@@ -88,7 +89,7 @@ void security_aes256_encrypt_or_decrypt_ecb(uint8_t source[], const int len, boo
 }
 
 
-jbyteArray security_aes256_encrypt_ecb(JNIEnv *env, jclass clazz, jbyteArray bytes) {
+void security_aes256_encrypt_ecb(JNIEnv *env, jclass clazz, jbyteArray bytes) {
     int len = env->GetArrayLength(bytes);
     uint8_t *source = (uint8_t *) env->GetByteArrayElements(bytes, JNI_FALSE);
 
@@ -98,11 +99,9 @@ jbyteArray security_aes256_encrypt_ecb(JNIEnv *env, jclass clazz, jbyteArray byt
     env->SetByteArrayRegion(newbytes, 0, len, (const jbyte *) source);
 
     env->ReleaseByteArrayElements(bytes, (jbyte *) source, 0);
-
-    return newbytes;
 }
 
-jbyteArray security_aes256_decrypt_ecb(JNIEnv *env, jclass clazz, jbyteArray bytes) {
+void security_aes256_decrypt_ecb(JNIEnv *env, jclass clazz, jbyteArray bytes) {
     int len = env->GetArrayLength(bytes);
     uint8_t *source = (uint8_t *) env->GetByteArrayElements(bytes, JNI_FALSE);
 
@@ -112,8 +111,6 @@ jbyteArray security_aes256_decrypt_ecb(JNIEnv *env, jclass clazz, jbyteArray byt
     env->SetByteArrayRegion(newbytes, 0, len, (const jbyte *) source);
 
     env->ReleaseByteArrayElements(bytes, (jbyte *) source, 0);
-
-    return newbytes;
 }
 
 
@@ -142,4 +139,26 @@ void security_aes256_destroy(JNIEnv *env, jclass clazz) {
         aes256_done(ctx);
         ctx = NULL;
     }
+}
+
+void security_xorCrypt(JNIEnv *env, jclass clazz, jbyteArray array, jbyteArray key) {
+    int len = env->GetArrayLength(array);
+    jbyte *bytes = env->GetByteArrayElements(array, JNI_FALSE);
+
+    if (key == NULL) {
+        int keyLen = 32;
+        uint8_t keyBytes[32] = {21, 32, 56, 68, 32, 134, 67, 233,
+                                45, 135, 90, 34, 111, 56, 124, 67,
+                                245, 234, 41, 134, 65, 93, 113, 45,
+                                222, 111, 222, 31, 232, 54, 231, 51};//默认key
+        xorCrypt((uint8_t *) bytes, len, keyBytes, keyLen);
+    } else {
+        int keyLen = env->GetArrayLength(array);
+        jbyte *keyBytes = env->GetByteArrayElements(array, JNI_FALSE);
+        xorCrypt((uint8_t *) bytes, len, (uint8_t *) keyBytes, keyLen);
+
+        env->ReleaseByteArrayElements(key, keyBytes, JNI_FALSE);
+    }
+
+    env->ReleaseByteArrayElements(array, bytes, JNI_FALSE);
 }

@@ -11,6 +11,7 @@ import cn.fxlcy.framework.example.R;
 import cn.fxlcy.framework.module.TestModule;
 import cn.fxlcy.framework.mvp.presenter.ITestPresenter;
 import cn.fxlcy.framework.mvp.view.ITestView;
+import cn.fxlcy.framework.util.Encrypt;
 
 public class MainActivity extends AppCompatActivity implements ITestView {
     ITestPresenter mPresenter;
@@ -27,6 +28,9 @@ public class MainActivity extends AppCompatActivity implements ITestView {
                 .injectContext(this)
                 .inject();
         mPresenter.toast();
+
+
+        Encrypt.encryptStr("哈哈哈哈哈哈或或");
     }
 
     @Override

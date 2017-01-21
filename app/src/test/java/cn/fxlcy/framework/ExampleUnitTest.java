@@ -2,6 +2,8 @@ package cn.fxlcy.framework;
 
 import org.junit.Test;
 
+import cn.fxlcy.framework.util.Encrypt;
+
 import static org.junit.Assert.*;
 
 /**
@@ -13,5 +15,7 @@ public class ExampleUnitTest {
     @Test
     public void addition_isCorrect() throws Exception {
         assertEquals(4, 2 + 2);
+
+        Encrypt.encryptStr("啊啊啊啊");
     }
 }

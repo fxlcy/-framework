@@ -11,7 +11,8 @@
 #define NULL 0
 
 //取得数组长度
-#define GET_ARRAY_LENGTH(array,len) {len = (sizeof(array) / sizeof(array[0]));}
+#define GET_ARRAY_LENGTH(array,len) {int arrayLen = sizeof(array);\
+len = (arrayLen > 0 ? sizeof(array) / sizeof(array[0]) : 0);}
 
 #ifndef AL_H
 #define AL_H

@@ -19,7 +19,8 @@ add_library( # Sets the name of the library.
              # Associated headers in the same location as their source
              # file are automatically included.
 
-             src/main/cc/security.cc)
+             ../../initializer.cc
+             ../../security.cc)
 
 
 # Searches for a specified prebuilt library and stores the path as a
@@ -46,4 +47,4 @@ target_link_libraries( # Specifies the target library.
                        # included in the NDK.
                        ${log-lib}
                        android
-                       ${CMAKE_CURRENT_SOURCE_DIR}/src/main/jniLibs/armeabi-v7a/libal.so)
+                       ${CMAKE_CURRENT_SOURCE_DIR}/../../../jniLibs-x86/x86/libal.so)

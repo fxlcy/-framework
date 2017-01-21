@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--普通字体颜色-->
+    <attr name="colorText" format="color" />
+    <!--标题颜色-->
+    <attr name="colorTitleText" format="color" />
+    <!--副标题颜色-->
+    <attr name="colorSubTitleText" format="color" />
+    <!--线条的颜色-->
+    <attr name="colorLine" format="color" />
+    <!--线条2的颜色-->
+    <attr name="colorLine_2" format="color" />
+    <!--主要背景色-->
+    <attr name="mainBg" format="reference" />
+    <!--主要背景色-->
+    <attr name="appCompatWindowBackground" format="reference" />
+    <!--菜单项背景-->
+    <attr name="menuItemBg" format="reference" />
+    <!--菜单项背景(普通状态下透明/无)-->
+    <attr name="menuItemBg_Normal_Tran" format="reference" />
+    <!--tab指示器的背景-->
+    <attr name="tabIndicatorBg" format="reference" />
+    <!--toolbar的背景颜色-->
+    <attr name="toolbarBg" format="reference" />
+    <!--toolbar的title字体颜色-->
+    <attr name="colorToolbarTitleText" format="color"/>
+    <!--线条的粗细-->
+    <attr name="lineSize" format="dimension" />
+</resources>

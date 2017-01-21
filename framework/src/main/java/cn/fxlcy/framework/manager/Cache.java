@@ -20,6 +20,7 @@ import cn.fxlcy.framework.util.Encrypt;
 
 /**
  * Created by fxlcy on 2016/12/23.
+ * 缓存类(file+memory)
  */
 public class Cache implements Closeable, Flushable {
 
