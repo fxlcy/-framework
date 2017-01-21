@@ -4,7 +4,10 @@
 #include "assets.h"
 #include "include/al.h"
 
-static const jbyte key[] = {253, 67, 82, 95, 79};
+static uint8_t key[32] = {21, 32, 56, 68, 32, 134, 67, 233,
+                          45, 135, 90, 34, 111, 56, 124, 67,
+                          245, 234, 41, 134, 65, 93, 113, 45,
+                          222, 111, 222, 31, 232, 54, 231, 51};//默认key
 
 jbyteArray JNICALL assets_decode(JNIEnv *env, jclass clazz, jbyteArray bytes) {
     int len = env->GetArrayLength(bytes);
