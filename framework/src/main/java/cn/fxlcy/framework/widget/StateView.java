@@ -6,7 +6,7 @@ import android.view.View;
  * Created by fxlcy on 2016/8/10.
  * 不同状态的视图
  */
-public interface CreateStateView {
+public interface StateView {
 
     View onCreateErrorView();
 
@@ -14,11 +14,5 @@ public interface CreateStateView {
 
     View onCreateLoadingView();
 
-    void showErrorView(Object arg);
 
-    void showEmptyView(Object arg);
-
-    void showLoadingView(Object arg);
-
-    void showContentView(Object arg);
 }

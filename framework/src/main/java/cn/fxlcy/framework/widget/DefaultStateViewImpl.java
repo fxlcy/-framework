@@ -13,7 +13,7 @@ import android.view.animation.Animation;
 /**
  * Created fxlcy xc on 2016/8/10.
  */
-public class DefaultCreateStateViewImpl implements CreateStateView, ComponentCallbacks {
+public class DefaultStateViewImpl implements StateView, ComponentCallbacks {
     private final static int VIEW_CONTENT = 1;
     private final static int VIEW_ERROR = 2;
     private final static int VIEW_EMPTY = 3;
@@ -29,7 +29,7 @@ public class DefaultCreateStateViewImpl implements CreateStateView, ComponentCal
     private View mLoadingView;
 
     private Context mContext;
-    private CreateStateView mCreateStateView;
+    private StateView mCreateStateView;
     private IViewGroup mContentView;
 
 
@@ -38,7 +38,7 @@ public class DefaultCreateStateViewImpl implements CreateStateView, ComponentCal
 
     private int[] mStateViewLayout;
 
-    public DefaultCreateStateViewImpl(Context context, CreateStateView impl, IViewGroup contentView,
+    public DefaultStateViewImpl(Context context, StateView impl, IViewGroup contentView,
                                       @LayoutRes int loadingLayout, @LayoutRes int errorLayout, @LayoutRes int emptyLayout) {
         mContext = context;
         mCreateStateView = impl;
