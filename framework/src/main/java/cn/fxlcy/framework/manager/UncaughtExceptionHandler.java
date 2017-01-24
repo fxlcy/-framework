@@ -26,6 +26,9 @@ package cn.fxlcy.framework.manager;
 import android.annotation.SuppressLint;
 import android.app.Application;
 
+/**
+ * 同意异常处理
+ * */
 public class UncaughtExceptionHandler implements Thread.UncaughtExceptionHandler {
     @SuppressLint("StaticFieldLeak")
     private static UncaughtExceptionHandler sInstanceHandler;

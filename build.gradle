@@ -32,7 +32,7 @@ ext{
     ABI_ARMEABI_V7A = "armeabi-v7a"
     ABI_X86 = "x86"
 
-    abi = ABI_X86
+    abi = ABI_ARMEABI_V7A
 
 }
 

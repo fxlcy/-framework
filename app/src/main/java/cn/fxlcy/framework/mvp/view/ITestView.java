@@ -1,5 +1,7 @@
 package cn.fxlcy.framework.mvp.view;
 
+import cn.fxlcy.framework.mvp.BaseView;
+
 /**
  * Created by fxlcy
  * on 2017/1/18.
@@ -8,6 +10,6 @@ package cn.fxlcy.framework.mvp.view;
  * @version 1.0
  */
 
-public interface ITestView {
+public interface ITestView extends BaseView {
     void toast(String text);
 }

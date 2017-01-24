@@ -1,5 +1,7 @@
 package cn.fxlcy.framework.mvp;
 
+import cn.fxlcy.framework.widget.ToggleStateView;
+
 /**
  * Created by fxlcy
  * on 2017/1/22
@@ -7,5 +9,5 @@ package cn.fxlcy.framework.mvp;
  * @author fxlcy
  * @version 1.0
  */
-public class BaseView {
+public interface BaseView extends ToggleStateView {
 }

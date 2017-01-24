@@ -28,7 +28,6 @@ android {
     sourceSets {
         main {
             if (abi.equals(ABI_ARMEABI_V7A)) {
-                print()
                 jniLibs.srcDirs = ["src/main/jniLibs"]
             } else if (abi.equals(ABI_X86)) {
                 jniLibs.srcDirs = ["src/main/jniLibs-x86"]

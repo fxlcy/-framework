@@ -6,9 +6,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
 
-import cn.fxlcy.framework.widget.CreateStateView;
-import cn.fxlcy.framework.widget.DefaultCreateStateViewImpl;
+import cn.fxlcy.framework.R;
+import cn.fxlcy.framework.widget.DefaultStateViewImpl;
 import cn.fxlcy.framework.widget.IViewGroup;
+import cn.fxlcy.framework.widget.StateView;
 
 /**
  * Created by fxlcy
@@ -17,8 +18,8 @@ import cn.fxlcy.framework.widget.IViewGroup;
  * @author fxlcy
  * @version 1.0
  */
-public abstract class BaseActivity extends AppCompatActivity implements CreateStateView {
-    private CreateStateView mCreateStateView;
+public abstract class BaseActivity extends AppCompatActivity implements StateView {
+    private StateView mStateView;
     private ViewGroup mContentView;
 
     @Override
@@ -31,7 +32,7 @@ public abstract class BaseActivity extends AppCompatActivity implements CreateSt
             app.dispatchActivityCreated(this, savedInstanceState);
         }
 
-        mCreateStateView = new DefaultCreateStateViewImpl(this, this, new IViewGroup() {
+        mStateView = new DefaultStateViewImpl(this, this, new IViewGroup() {
             @Override
             public void addView(View view) {
                 getContentView().addView(view);
@@ -51,7 +52,7 @@ public abstract class BaseActivity extends AppCompatActivity implements CreateSt
             public int indexOfChild(View view) {
                 return getContentView().indexOfChild(view);
             }
-        }, 0, 0, 0);
+        }, R.layout.layout_loading, R.layout.layout_error, R.layout.layout_loading);
     }
 
 
@@ -122,37 +123,37 @@ public abstract class BaseActivity extends AppCompatActivity implements CreateSt
 
     @Override
     public View onCreateErrorView() {
-        return mCreateStateView.onCreateErrorView();
+        return mStateView.onCreateErrorView();
     }
 
     @Override
     public View onCreateEmptyView() {
-        return mCreateStateView.onCreateEmptyView();
+        return mStateView.onCreateEmptyView();
     }
 
     @Override
     public View onCreateLoadingView() {
-        return mCreateStateView.onCreateLoadingView();
+        return mStateView.onCreateLoadingView();
     }
 
     @Override
     public void showErrorView(Object arg) {
-        mCreateStateView.showErrorView(arg);
+        mStateView.showErrorView(arg);
     }
 
     @Override
     public void showEmptyView(Object arg) {
-        mCreateStateView.showEmptyView(arg);
+        mStateView.showEmptyView(arg);
     }
 
     @Override
     public void showLoadingView(Object arg) {
-        mCreateStateView.showLoadingView(arg);
+        mStateView.showLoadingView(arg);
     }
 
     @Override
     public void showContentView(Object arg) {
-        mCreateStateView.showContentView(arg);
+        mStateView.showContentView(arg);
     }
 
     public ViewGroup getContentView() {

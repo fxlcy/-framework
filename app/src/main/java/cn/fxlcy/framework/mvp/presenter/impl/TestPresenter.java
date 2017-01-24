@@ -26,6 +26,7 @@ public class TestPresenter extends BasePresenter<ITestModel, ITestView> implemen
 
     @Override
     public void toast() {
+        getView().showLoadingView(null);
         Toast.makeText(getContext(), "context ！= null", Toast.LENGTH_SHORT).show();
         getView().toast(getModel().getTestText());
     }

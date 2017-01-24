@@ -6,13 +6,10 @@ import android.view.View;
  * Created by fxlcy on 2016/8/10.
  * 不同状态的视图
  */
-public interface StateView {
-
+public interface StateView extends ToggleStateView {
     View onCreateErrorView();
 
     View onCreateEmptyView();
 
     View onCreateLoadingView();
-
-
 }

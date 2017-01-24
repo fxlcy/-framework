@@ -208,8 +208,9 @@ public abstract class BaseApplication extends Application {
     public static class Config {
         private Class<? extends GlobalBase> mGlobalClass;
 
-        public void setGlobalClass(Class<? extends GlobalBase> globalClass) {
+        public Config setGlobalClass(Class<? extends GlobalBase> globalClass) {
             mGlobalClass = globalClass;
+            return this;
         }
     }
 

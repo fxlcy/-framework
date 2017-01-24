@@ -12,7 +12,7 @@ import java.util.List;
 import cn.fxlcy.framework.util.ItemList;
 
 /**
- * Created by xc on 2016/8/17.
+ * Created by fxlcy on 2016/8/17.
  */
 public abstract class BaseRecyclerViewAdapter<D, VH extends ViewHolder> extends RecyclerView.Adapter<VH> implements ItemList<D, BaseRecyclerViewAdapter> {
     private Context mContext;
