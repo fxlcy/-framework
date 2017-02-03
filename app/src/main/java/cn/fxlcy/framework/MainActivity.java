@@ -8,8 +8,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import java.io.IOException;
+
 import cn.fxlcy.framework.basis.BaseActivity;
 import cn.fxlcy.framework.component.DaggerTestComponent;
+import cn.fxlcy.framework.manager.Cache;
 import cn.fxlcy.framework.mvp.dagger.MvpInjectTarget;
 import cn.fxlcy.framework.mvp.dagger.module.ContextModule;
 import cn.fxlcy.framework.example.R;
@@ -17,10 +20,11 @@ import cn.fxlcy.framework.module.TestModule;
 import cn.fxlcy.framework.mvp.presenter.ITestPresenter;
 import cn.fxlcy.framework.mvp.view.ITestView;
 import cn.fxlcy.framework.util.Encrypt;
+import cn.fxlcy.framework.util.SdcardUtils;
 
 public class MainActivity extends BaseActivity implements ITestView {
     ITestPresenter mPresenter;
-    private Button mBtn;
+    private Cache mCache;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,15 +40,31 @@ public class MainActivity extends BaseActivity implements ITestView {
         mPresenter.toast();
 
 
-        Encrypt.encryptStr("哈哈哈哈哈哈或或");
+        mCache = Cache.create(SdcardUtils.getDiskCacheDir(getApplicationContext(), "cache"), 1024 * 1024 * 100);
     }
 
     @Override
     public void onContentChanged() {
         super.onContentChanged();
 
-        mBtn = (Button) findViewById(R.id.btn);
-        registerForContextMenu(mBtn);
+        final View.OnClickListener clickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final int id = v.getId();
+                switch (id) {
+                    case R.id.write:
+                        mCache.edit().put("aaa", "涉及到佛世界的佛教哦哦");
+                        break;
+                    case R.id.read:
+                        String str = mCache.snapshot().getString("aaa");
+                        Toast.makeText(getApplicationContext(),str,Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        };
+
+        findViewById(R.id.read).setOnClickListener(clickListener);
+        findViewById(R.id.write).setOnClickListener(clickListener);
     }
 
 

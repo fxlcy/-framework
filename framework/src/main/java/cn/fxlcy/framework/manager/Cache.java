@@ -50,7 +50,7 @@ public class Cache implements Closeable, Flushable {
             mDiskCacheMaxSize = cacheMaxSize;
         }
 
-        if (!cacheDir.isDirectory()) {
+        if (cacheDir.exists() && !cacheDir.isDirectory()) {
             throw new IllegalArgumentException("cacheDir.isDirectory");
         } else {
             mDiskDir = cacheDir;
@@ -68,6 +68,10 @@ public class Cache implements Closeable, Flushable {
 
     public synchronized Editor edit() {
         return new Editor();
+    }
+
+    public synchronized Snapshot snapshot() {
+        return new Snapshot();
     }
 
     @Override
@@ -92,53 +96,16 @@ public class Cache implements Closeable, Flushable {
         return mDiskDir;
     }
 
-    public final class Editor {
-        private int outTimeMillis = UNLIMITED_TIME;
+
+    public final class Snapshot {
         private DiskLruCache.Snapshot snapshot;
-
-        public Editor setOutTimeMillis(int outTimeMillis) {
-            this.outTimeMillis = outTimeMillis;
-            return this;
-        }
-
-
-        public void put(String key, String value) {
-            put(key, value, "utf-8");
-        }
-
-        public void put(String key, String value, String charset) {
-            byte[] bytes = value.getBytes(Charset.forName(charset));
-            put(key, bytes);
-        }
-
-        public void put(String key, byte[] value) {
-            put(key, value, 0, value.length);
-        }
-
-        public void put(String key, byte[] value, int off, int len) {
-            key = key(key);
-            long currentTimeMillis = System.currentTimeMillis();
-
-            mMemoryCache.put(key, new MemoryEntry(currentTimeMillis, outTimeMillis, value));
-
-            if (putDisk(key, value, off, len)) {
-                if (putTimeDisk(new Entry(currentTimeMillis, outTimeMillis))) {
-                    completeEdit(false);
-                }
-            }
-        }
-
-        public void put(String key, InputStream stream) {
-            key = key(key);
-            if (putDisk(key, stream)) {
-                if (putTimeDisk(new Entry(System.currentTimeMillis(), outTimeMillis))) {
-                    completeEdit(false);
-                }
-            }
-        }
 
         public InputStream get(String key) {
             return get(key, null);
+        }
+
+        public String getString(String key) {
+            return getString(key, "utf-8");
         }
 
         public String getString(String key, String charset) {
@@ -188,14 +155,6 @@ public class Cache implements Closeable, Flushable {
             return sb.toString();
         }
 
-        public boolean remove(String key) {
-            try {
-                return mCache.remove(key) || mMemoryCache.remove(key) != null;
-            } catch (IOException e) {
-                e.printStackTrace();
-                return false;
-            }
-        }
 
         public void releaseSnapshot() {
             if (snapshot != null) {
@@ -235,6 +194,65 @@ public class Cache implements Closeable, Flushable {
             }
 
             return null;
+        }
+    }
+
+    public final class Editor {
+        private int outTimeMillis = UNLIMITED_TIME;
+
+        public Editor setOutTimeMillis(int outTimeMillis) {
+            this.outTimeMillis = outTimeMillis;
+            return this;
+        }
+
+
+        public Editor put(String key, String value) {
+            return put(key, value, "utf-8");
+        }
+
+        public Editor put(String key, String value, String charset) {
+            byte[] bytes = value.getBytes(Charset.forName(charset));
+            return put(key, bytes);
+        }
+
+        public Editor put(String key, byte[] value) {
+            return put(key, value, 0, value.length);
+        }
+
+        public Editor put(String key, byte[] value, int off, int len) {
+            key = key(key);
+            long currentTimeMillis = System.currentTimeMillis();
+
+            mMemoryCache.put(key, new MemoryEntry(currentTimeMillis, outTimeMillis, value));
+
+            if (putDisk(key, value, off, len)) {
+                if (putTimeDisk(new Entry(currentTimeMillis, outTimeMillis))) {
+                    completeEdit(false);
+                }
+            }
+
+            return this;
+        }
+
+        public Editor put(String key, InputStream stream) {
+            key = key(key);
+            if (putDisk(key, stream)) {
+                if (putTimeDisk(new Entry(System.currentTimeMillis(), outTimeMillis))) {
+                    completeEdit(false);
+                }
+            }
+
+            return this;
+        }
+
+
+        public boolean remove(String key) {
+            try {
+                return mCache.remove(key) || mMemoryCache.remove(key) != null;
+            } catch (IOException e) {
+                e.printStackTrace();
+                return false;
+            }
         }
     }
 
@@ -319,7 +337,8 @@ public class Cache implements Closeable, Flushable {
                 os = mEditor.newOutputStream(1);
                 OutputStreamWriter writer = new OutputStreamWriter(os, "utf-8");
                 writer.write(entry.cacheTimeMillis + "\n");
-                writer.write(entry.outTimeMillis);
+                writer.write(String.valueOf(entry.outTimeMillis));
+                writer.close();
                 return true;
             } catch (IOException e) {
                 e.printStackTrace();
@@ -333,7 +352,7 @@ public class Cache implements Closeable, Flushable {
 
 
     private String key(String key) {
-        return Encrypt.MD5(key);
+        return Encrypt.MD5(key).toLowerCase();
     }
 
 

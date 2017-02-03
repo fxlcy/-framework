@@ -16,6 +16,7 @@ import cn.fxlcy.framework.mvp.model.ITestModel;
 public class TestModel extends BaseModel implements ITestModel {
     @Override
     public String getTestText() {
+
         Toast.makeText(getContext(), "男男女女女女女女女女女女女", Toast.LENGTH_SHORT).show();
         return "哈哈哈哈哈哈";
     }
