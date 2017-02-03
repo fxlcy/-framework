@@ -66,7 +66,7 @@ public class Cache implements Closeable, Flushable {
     }
 
 
-    public Editor edit() {
+    public synchronized Editor edit() {
         return new Editor();
     }
 
@@ -93,11 +93,6 @@ public class Cache implements Closeable, Flushable {
     }
 
     public final class Editor {
-        Editor() {
-            synchronized (Cache.class) {
-            }
-        }
-
         private int outTimeMillis = UNLIMITED_TIME;
         private DiskLruCache.Snapshot snapshot;
 
